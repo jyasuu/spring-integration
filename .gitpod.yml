@@ -8,7 +8,7 @@ tasks:
   - name: start
     init: |
         sdk install java 21.0.2-zulu < /dev/null
-        sdk install maven 3.8.6 < /dev/null
+        sdk install maven 3.9.9 < /dev/null
         sdk install gradle 7.4.1 < /dev/null
         sdk install springboot < /dev/null
     command: |
