@@ -6,7 +6,7 @@
 
 tasks:
   - name: start
-    init: |
+    before: |
         sdk install java 21.0.2-zulu < /dev/null
         sdk install maven 3.9.9 < /dev/null
         sdk install gradle 7.4.1 < /dev/null

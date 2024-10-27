@@ -21,7 +21,7 @@ spring init ollama --build=maven --java-version=17  \
 spring init postgresql --build=maven --java-version=17  \
 --name postgresql --packaging jar  \
 --description 'postgresql application'  --artifact-id postgresql \
---boot-version 3.2.2  --dependencies=web,lombok,docker-compose,postgresql,data-jpa,actuator  \
+--boot-version 3.2.2  --dependencies=web,lombok,docker-compose,postgresql,data-jpa,actuator,distributed-tracing  \
 --group-id org.jyasu --extract --force
 
 
