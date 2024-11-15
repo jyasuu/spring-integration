@@ -3,7 +3,10 @@
 ## init
 
 ```sh
-
+curl -s "https://get.sdkman.io" | bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+sdk install java 17.0.10-zulu
+sdk install springboot
 
 spring init openai --build=maven --java-version=17  \
 --name openai --packaging jar  \
@@ -80,5 +83,12 @@ spring init shell --build=maven --java-version=17  \
 --boot-version 3.2.2  --dependencies=lombok,docker-compose,native,spring-shell  \
 --group-id org.jyasu --extract --force
 
+
+
+spring init actuator --build=maven --java-version=17  \
+--name actuator --packaging jar  \
+--description 'actuator application'  --artifact-id actuator \
+--boot-version 3.2.2  --dependencies=web,lombok,actuator  \
+--group-id org.jyasu --extract --force
 
 ```
