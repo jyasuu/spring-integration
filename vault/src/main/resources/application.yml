@@ -1,0 +1,26 @@
+spring:
+    application:
+        name: vault
+    cloud:
+        vault:
+            database:
+                enabled: true
+                role: readonly
+            postgresql:
+                enabled: true
+                role: readonly
+                backend: postgresql
+                username-property: spring.datasource.username
+                password-property: spring.datasource.password
+            kv:
+                enabled: true
+            scheme: http
+            token: 00000000-0000-0000-0000-000000000000
+    config:
+        import: vault://
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        hikari:
+            maximum-pool-size: 10
+            minimum-idle: 5
+        url: jdbc:postgresql://localhost:5432/mydatabase
