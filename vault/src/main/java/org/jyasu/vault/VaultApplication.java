@@ -6,16 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.jyasu.vault.config.MyConfiguration;
 
 @RestController
+@EnableScheduling
 @SpringBootApplication
 @EnableConfigurationProperties(MyConfiguration.class)
 public class VaultApplication {
+	
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
 	@RequestMapping("/")
 	String home() {
@@ -28,7 +33,14 @@ public class VaultApplication {
 		logger.info("   example.password is {}", configuration.getPassword());
 		logger.info("----------------------------------------");
 
-		return "Hello World!";
+		
+        // Query to get the current user from PostgreSQL
+        String sql = "SELECT current_user";
+
+        // Execute the query and retrieve the current user
+        String currentUser = jdbcTemplate.queryForObject(sql, String.class);
+
+		return String.format("Hello World %s!", currentUser);
 	}
 	
 	@Autowired
@@ -37,6 +49,5 @@ public class VaultApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(VaultApplication.class, args);
 	}
-	
 
 }
