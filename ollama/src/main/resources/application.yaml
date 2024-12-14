@@ -1,0 +1,9 @@
+spring:
+  ai:
+    ollama:
+      base-url: https://sa-tons-traffic-yoga.trycloudflare.com/
+      init:
+        pull-model-strategy: always
+        chat:
+          additional-models:
+            - llama3.1
