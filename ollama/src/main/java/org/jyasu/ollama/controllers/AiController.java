@@ -1,7 +1,10 @@
 package org.jyasu.ollama.controllers;
 
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -27,6 +30,23 @@ public class AiController {
     @GetMapping("/ai/generate")
     public Map<String,String> generate(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
         return Map.of("generation", this.chatModel.call(message));
+    }
+
+    @GetMapping("/ai/generateWithRole")
+    public Map<String,String> generateWithRole(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
+        
+    List<Message> messages = List.of(
+        new SystemMessage("You are a master storyteller. If you can't find information or recent news, just make up a news that sounds happy."),
+        new UserMessage(message)
+        );
+    ChatResponse response = chatModel
+            .call(new Prompt(
+                messages,
+                OllamaOptions.builder()
+                .withTemperature(1d)
+                                .build()
+            ));
+        return Map.of("generation", response.getResult().getOutput().getContent());
     }
 
     @GetMapping(value = "/ai/generateStream",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
