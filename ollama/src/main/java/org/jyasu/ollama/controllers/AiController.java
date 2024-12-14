@@ -10,6 +10,7 @@ import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaModel;
 import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,10 +29,10 @@ public class AiController {
         return Map.of("generation", this.chatModel.call(message));
     }
 
-    @GetMapping("/ai/generateStream")
-	public Flux<ChatResponse> generateStream(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
+    @GetMapping(value = "/ai/generateStream",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<String> generateStream(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
         Prompt prompt = new Prompt(new UserMessage(message));
-        return this.chatModel.stream(prompt);
+        return this.chatModel.stream(prompt).map(res -> res.getResult().getOutput().getContent());
     }
 
 	@GetMapping("/chat")
