@@ -9,6 +9,7 @@ import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaModel;
 import org.springframework.ai.ollama.api.OllamaOptions;
@@ -46,6 +47,16 @@ public class AiController {
                 .withTemperature(1d)
                                 .build()
             ));
+        return Map.of("generation", response.getResult().getOutput().getContent());
+    }
+
+    @GetMapping("/ai/template")
+    public Map<String,String> template(@RequestParam(value = "message", defaultValue = "openai") String message) {
+        
+        String template = "May I ask what models {llm} currently has and what special abilities each has?";
+        PromptTemplate promptTemplate = new PromptTemplate(template);
+        Prompt prompt = promptTemplate.create(Map.of("llm", message));
+        ChatResponse response = chatModel.call(prompt);
         return Map.of("generation", response.getResult().getOutput().getContent());
     }
 
