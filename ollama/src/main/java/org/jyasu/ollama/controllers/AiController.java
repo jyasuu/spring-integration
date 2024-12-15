@@ -10,6 +10,7 @@ import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.model.Media;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaModel;
 import org.springframework.ai.ollama.api.OllamaOptions;
@@ -17,9 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -83,5 +87,27 @@ public class AiController {
                     .build()
             ));
 		return response.getResult().getOutput().getContent();
+	}
+
+
+    
+	@PostMapping(value = "/imagequery")
+	public Flux<String> imageQuery(@RequestParam MultipartFile file, @RequestParam String message) {
+		UserMessage userMessage = new UserMessage(
+				message, 
+				new Media(
+					MimeTypeUtils.parseMimeType(file.getContentType()),
+					file.getResource())
+				);
+
+        List<Message> messages = List.of(userMessage);
+        Prompt prompt = new Prompt(
+            messages,
+            OllamaOptions.builder()
+            .withModel(OllamaModel.LLAVA)
+            .withTemperature(1d)
+                            .build()
+        );
+		return this.chatModel.stream(prompt).map(res -> res.getResult().getOutput().getContent());
 	}
 }

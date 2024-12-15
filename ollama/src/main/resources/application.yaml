@@ -7,3 +7,4 @@ spring:
         chat:
           additional-models:
             - llama3.1
+            - llava
