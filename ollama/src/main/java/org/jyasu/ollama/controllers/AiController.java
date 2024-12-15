@@ -110,4 +110,14 @@ public class AiController {
         );
 		return this.chatModel.stream(prompt).map(res -> res.getResult().getOutput().getContent());
 	}
+
+    @GetMapping("/func")
+    public String func() {
+        return chatModel.call(
+            new Prompt("What time is it?", 
+               OllamaOptions.builder()
+               .withFunction("CurrentDateTime")
+               .build())
+        		).getResult().getOutput().getContent();
+    }
 }
