@@ -36,7 +36,7 @@ public class AiConfig {
 	@Bean
     public FunctionCallback productDetailsInfo() {
         DefaultFunctionCallbackBuilder builder =  new DefaultFunctionCallbackBuilder();
-        builder.description("Get the product's detail list");
+        builder.description("Get the product's detail list include product name and details");
         builder.responseConverter((response) -> ((org.jyasu.ollama.function.ProductDetaislFunction.Response)response).models() == null ? "" :((org.jyasu.ollama.function.ProductDetaislFunction.Response)response).models().toString());
 
         return builder.function("ProductDetailsInfo", new org.jyasu.ollama.function.ProductDetaislFunction()).inputType(org.jyasu.ollama.function.ProductDetaislFunction.Request.class).build();

@@ -39,7 +39,7 @@ public class ProductDetaislFunction implements Function<ProductDetaislFunction.R
 	@JsonClassDescription("product detail list")
 	public record Request(
 		//參數只需帶入產品
-		@JsonProperty(required = false, value = "product") @JsonPropertyDescription("product") String product
+		@JsonProperty(required = false, value = "product") @JsonPropertyDescription("product name") String product
 		) {
 	}
 	//回傳的結果最好包含產品一起回傳，若只回傳型號清單 AI 比較容易失誤
