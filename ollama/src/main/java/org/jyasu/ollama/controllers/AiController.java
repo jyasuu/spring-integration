@@ -117,8 +117,12 @@ public class AiController {
             new Prompt(prompt, 
                OllamaOptions.builder()
                .withFunction("ProductSalesInfo")
+               .withFunction("ProductDetailsInfo")
                .withFunction("CurrentDateTime")
+               .withModel(OllamaModel.LLAMA3_1)
                .build())
         		).getResult().getOutput().getContent();
+
+                
     }
 }

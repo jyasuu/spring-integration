@@ -29,11 +29,11 @@ public class ProductFunction implements Function<ProductFunction.Request, Produc
 	}
     
 	@JsonInclude(Include.NON_NULL)
-	@JsonClassDescription("公司產品銷售列表")
+	@JsonClassDescription("company product sales list")
 	public record Request(
 	//參數可帶入年份及產品，目前沒特別處理，參數可放在跟後端請求資料時篩選資料
-			@JsonProperty(required = false, value = "year") @JsonPropertyDescription("年分") String year,
-			@JsonProperty(required = false, value = "product") @JsonPropertyDescription("產品") String product
+			@JsonProperty(required = false, value = "year") @JsonPropertyDescription("year") String year,
+			@JsonProperty(required = false, value = "product") @JsonPropertyDescription("product model") String product
 			) {
 	}
 	//回應資料若有多筆，可以使用 List 回傳，AI 也能根據這些資料搭配 Prompt 的問題在提供正確資料給使用者

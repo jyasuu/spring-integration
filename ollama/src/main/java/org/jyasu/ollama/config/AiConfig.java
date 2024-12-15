@@ -31,4 +31,16 @@ public class AiConfig {
         return builder.function("ProductSalesInfo", new org.jyasu.ollama.function.ProductFunction()).inputType(org.jyasu.ollama.function.ProductFunction.Request.class).build();
         
     }
+    
+    
+	@Bean
+    public FunctionCallback productDetailsInfo() {
+        DefaultFunctionCallbackBuilder builder =  new DefaultFunctionCallbackBuilder();
+        builder.description("Get the product's model(產品型號) list");
+        builder.responseConverter((response) -> ((org.jyasu.ollama.function.ProductDetaislFunction.Response)response).models() == null ? "" :((org.jyasu.ollama.function.ProductDetaislFunction.Response)response).models().toString());
+
+        return builder.function("ProductDetailsInfo", new org.jyasu.ollama.function.ProductDetaislFunction()).inputType(org.jyasu.ollama.function.ProductDetaislFunction.Request.class).build();
+        
+    }
+    
 }

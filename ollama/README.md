@@ -34,4 +34,10 @@ curl -X POST -N \
   localhost:8080/func
 
 
+
+curl -X POST -N \
+  -F "prompt=Please give me the top three sales products in 2023, and list all models of the products" \
+  localhost:8080/func
+
+
 ```
