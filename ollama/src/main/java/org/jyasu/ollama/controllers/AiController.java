@@ -30,7 +30,7 @@ public class AiController {
     
     private final OllamaChatModel chatModel;
 
-    @Value("classpath:prompts/1.st")
+    @Value("classpath:prompts/2.st")
 	private Resource templateResource;
 
     @GetMapping("/ai/generate")
@@ -56,12 +56,12 @@ public class AiController {
     }
 
     @GetMapping("/ai/template")
-    public Flux<String> template(@RequestParam(value = "message", defaultValue = "openai") String message) {
+    public Flux<String> template() {
         
         String template = "May I ask what models {llm} currently has and what special abilities each has?";
         PromptTemplate promptTemplate = new PromptTemplate(template);
         promptTemplate = new PromptTemplate(templateResource);
-        Prompt prompt = promptTemplate.create(Map.of("llm", message));
+        Prompt prompt = promptTemplate.create(Map.of("language", "rust","methodName", "quicksort"));
         return this.chatModel.stream(prompt).map(res -> res.getResult().getOutput().getContent());
     }
 
