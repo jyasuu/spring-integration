@@ -14,6 +14,8 @@ import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaModel;
 import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,9 @@ import reactor.core.publisher.Flux;
 public class AiController {
     
     private final OllamaChatModel chatModel;
+
+    @Value("classpath:prompts/1.st")
+	private Resource templateResource;
 
     @GetMapping("/ai/generate")
     public Map<String,String> generate(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
@@ -51,13 +56,13 @@ public class AiController {
     }
 
     @GetMapping("/ai/template")
-    public Map<String,String> template(@RequestParam(value = "message", defaultValue = "openai") String message) {
+    public Flux<String> template(@RequestParam(value = "message", defaultValue = "openai") String message) {
         
         String template = "May I ask what models {llm} currently has and what special abilities each has?";
         PromptTemplate promptTemplate = new PromptTemplate(template);
+        promptTemplate = new PromptTemplate(templateResource);
         Prompt prompt = promptTemplate.create(Map.of("llm", message));
-        ChatResponse response = chatModel.call(prompt);
-        return Map.of("generation", response.getResult().getOutput().getContent());
+        return this.chatModel.stream(prompt).map(res -> res.getResult().getOutput().getContent());
     }
 
     @GetMapping(value = "/ai/generateStream",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
