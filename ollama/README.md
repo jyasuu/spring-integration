@@ -25,4 +25,13 @@ curl -N \
   -F "file=@/workspace/spring-integration/ollama/example.jpg" \
   localhost:8080/imagequery
 
+curl -X POST -N \
+  -F "prompt=What time is it?" \
+  localhost:8080/func
+
+curl -X POST -N \
+  -F "prompt=Do you know products of year 2023?" \
+  localhost:8080/func
+
+
 ```
