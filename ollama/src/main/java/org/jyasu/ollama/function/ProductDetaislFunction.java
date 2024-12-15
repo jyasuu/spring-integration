@@ -26,15 +26,6 @@ public class ProductDetaislFunction implements Function<ProductDetaislFunction.R
 				new ProductDetail("PD-1300", List.of("1300-1","1300-1","1300-1"))
 			);
 		//模擬查詢後回傳的結果
-		System.out.println(request.product());
-		System.out.println(request.product());
-		System.out.println(request.product());
-		System.out.println(request.product());
-		System.out.println(request.product());
-		System.out.println(request.product());
-		System.out.println(request.product());
-		System.out.println(request.product());
-		System.out.println(request.product());
 		Optional<ProductDetail> models = productModels.stream().filter(pd -> pd.product.equals(request.product())).findFirst();
 		if(models.isEmpty())
 		{
@@ -45,10 +36,10 @@ public class ProductDetaislFunction implements Function<ProductDetaislFunction.R
 	}
 	
 	@JsonInclude(Include.NON_NULL)
-	@JsonClassDescription("product model type list")
+	@JsonClassDescription("product detail list")
 	public record Request(
 		//參數只需帶入產品
-		@JsonProperty(required = false, value = "product") @JsonPropertyDescription("product model") String product
+		@JsonProperty(required = false, value = "product") @JsonPropertyDescription("product") String product
 		) {
 	}
 	//回傳的結果最好包含產品一起回傳，若只回傳型號清單 AI 比較容易失誤

@@ -36,7 +36,7 @@ curl -X POST -N \
 
 
 curl -X POST -N \
-  -F "prompt=Please give me the top three sales products in 2023, and list all models of the products" \
+  -F "prompt=Please give me the top three sales products in 2023, and list all details of the products, and list in table" \
   localhost:8080/func
 
 
