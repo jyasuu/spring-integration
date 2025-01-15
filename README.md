@@ -91,4 +91,7 @@ spring init actuator --build=maven --java-version=17  \
 --boot-version 3.2.2  --dependencies=web,lombok,actuator  \
 --group-id org.jyasu --extract --force
 
+
+spring init example --build=maven --java-version=17 --artifact-id example --boot-version 3.3.7  --group-id com.jyasu --packaging=jar -d=web,jdbc,lombok,docker-compose,postgresql,data-jpa,actuator --name example --extract --force
+
 ```
